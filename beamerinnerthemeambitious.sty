@@ -1,0 +1,300 @@
+%% ---------------------------------------------------------------------------
+%% This is file `beamerinnerthemeambitious.sty'.
+%% Copyright 2021 Taishi Nakashima and the LaTeX community.
+%% The original template was based on the metropolis theme
+%% by Matthias Vogelgesang.
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemeambitious}[2021/07/28 ambitious inner theme]
+\RequirePackage{etoolbox}
+\RequirePackage{keyval}
+\RequirePackage{calc}
+\RequirePackage{pgfopts}
+\RequirePackage{tikz}
+\pgfkeys{
+  /ambitious/inner/sectionpage/.cd,
+    .is choice,
+    none/.code=\ambitious@disablesectionpage,
+    simple/.code={\ambitious@enablesectionpage
+                  \setbeamertemplate{section page}[simple]},
+    progressbar/.code={\ambitious@enablesectionpage
+                       \setbeamertemplate{section page}[progressbar]},
+}
+\pgfkeys{
+  /ambitious/inner/subsectionpage/.cd,
+    .is choice,
+    none/.code=\ambitious@disablesubsectionpage,
+    simple/.code={\ambitious@enablesubsectionpage
+                  \setbeamertemplate{section page}[simple]},
+    progressbar/.code={\ambitious@enablesubsectionpage
+                       \setbeamertemplate{section page}[progressbar]},
+}
+\newcommand{\ambitious@inner@setdefaults}{
+  \pgfkeys{/ambitious/inner/.cd,
+    sectionpage=progressbar,
+    subsectionpage=none
+  }
+}
+\setbeamertemplate{title page}{
+  \begin{minipage}[b][\paperheight]{\textwidth}
+    \ifx\inserttitlegraphic\@empty\else\usebeamertemplate*{title graphic}\fi
+    \vfill%
+    \ifx\inserttitle\@empty\else\usebeamertemplate*{title}\fi
+    \ifx\insertsubtitle\@empty\else\usebeamertemplate*{subtitle}\fi
+    \usebeamertemplate*{title separator}
+    \ifx\beamer@shortauthor\@empty\else\usebeamertemplate*{author}\fi
+    \ifx\insertinstitute\@empty\else\usebeamertemplate*{institute}\fi
+    \ifx\insertdate\@empty\else\usebeamertemplate*{date}\fi
+    \vfill
+    \vspace*{1mm}
+  \end{minipage}
+}
+\def\maketitle{%
+  \ifbeamer@inframe
+    \titlepage
+  \else
+    \frame[plain,noframenumbering]{\titlepage}
+  \fi
+}
+\def\titlepage{%
+  \usebeamertemplate{title page}
+}
+\setbeamertemplate{title graphic}{
+  \vbox to 0pt {
+    \vspace*{2em}
+    \inserttitlegraphic%
+  }%
+  \nointerlineskip%
+}
+\setbeamertemplate{title}{
+  \raggedright%
+  \linespread{1.0}%
+  \inserttitle%
+  \par%
+  \vspace*{0.5em}
+}
+\setbeamertemplate{subtitle}{
+  \raggedright%
+  \insertsubtitle%
+  \par%
+  \vspace*{0.5em}
+}
+\newlength{\ambitious@titleseparator@linewidth}
+\setlength{\ambitious@titleseparator@linewidth}{0.2pt}
+\setbeamertemplate{title separator}{
+  \begin{tikzpicture}
+    \fill[fg] (0,0) rectangle (\textwidth, \ambitious@titleseparator@linewidth);
+  \end{tikzpicture}%
+  \par%
+}
+\setbeamertemplate{author}{
+  \vspace*{2em}
+  \insertauthor%
+  \par%
+  \vspace*{0.25em}
+}
+\setbeamertemplate{date}{
+  \insertdate%
+  \par%
+}
+\setbeamertemplate{institute}{
+  % \vspace*{3mm}
+  \insertinstitute%
+  \par%
+}
+\defbeamertemplate{section page}{simple}{
+  \begin{center}
+    \usebeamercolor[fg]{section title}
+    \usebeamerfont{section title}
+    \insertsectionhead\par
+    \ifx\insertsubsectionhead\@empty\else
+      \usebeamercolor[fg]{subsection title}
+      \usebeamerfont{subsection title}
+      \insertsubsectionhead
+    \fi
+  \end{center}
+}
+\defbeamertemplate{section page}{progressbar}{
+  \centering
+  \begin{minipage}{22em}
+    \raggedright
+    \usebeamercolor[fg]{section title}
+    \usebeamerfont{section title}
+    \insertsectionhead\\[-1ex]
+    \usebeamertemplate*{progress bar in section page}
+    \par
+    \ifx\insertsubsectionhead\@empty\else%
+      \usebeamercolor[fg]{subsection title}%
+      \usebeamerfont{subsection title}%
+      \insertsubsectionhead
+    \fi
+  \end{minipage}
+  \par
+  \vspace{\baselineskip}
+}
+\newcommand{\ambitious@disablesectionpage}{
+  \AtBeginSection{
+    % intentionally empty
+  }
+}
+\newcommand{\ambitious@enablesectionpage}{
+  \AtBeginSection{
+    \ifbeamer@inframe
+      \sectionpage
+    \else
+      \frame[plain,c,noframenumbering]{\sectionpage}
+    \fi
+  }
+}
+\setbeamertemplate{subsection page}{%
+  \usebeamertemplate*{section page}
+}
+\newcommand{\ambitious@disablesubsectionpage}{
+  \AtBeginSubsection{
+    % intentionally empty
+  }
+}
+\newcommand{\ambitious@enablesubsectionpage}{
+  \AtBeginSubsection{
+    \ifbeamer@inframe
+      \subsectionpage
+    \else
+      \frame[plain,c,noframenumbering]{\subsectionpage}
+    \fi
+  }
+}
+\newlength{\ambitious@progressonsectionpage}
+\newlength{\ambitious@progressonsectionpage@linewidth}
+\setlength{\ambitious@progressonsectionpage@linewidth}{0.5pt}
+\setbeamertemplate{progress bar in section page}{
+  \setlength{\ambitious@progressonsectionpage}{%
+    \textwidth * \ratio{\insertframenumber pt}{\inserttotalframenumber pt}%
+  }%
+  \begin{tikzpicture}
+    \fill[bg] (0,0) rectangle (\textwidth, \ambitious@progressonsectionpage@linewidth);
+    \fill[fg] (0,0) rectangle (\ambitious@progressonsectionpage, \ambitious@progressonsectionpage@linewidth);
+  \end{tikzpicture}%
+}
+\def\inserttotalframenumber{100}
+\newlength{\ambitious@blocksep}
+\newlength{\ambitious@blockadjust}
+\setlength{\ambitious@blocksep}{0.75ex}
+\setlength{\ambitious@blockadjust}{0.25ex}
+\providecommand{\ambitious@strut}{%
+  \vphantom{ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz()}%
+}
+\newcommand{\ambitious@block}[1]{
+  \par\vskip\medskipamount%
+  \setlength{\parskip}{0pt}
+  \ifbeamercolorempty[bg]{block title#1}{%
+    \begin{beamercolorbox}[rightskip=0pt plus 4em]{block title#1}}{%
+  \ifbeamercolorempty[bg]{block title}{%
+    \begin{beamercolorbox}[rightskip=0pt plus 4em]{block title#1}%
+  }%
+  {%
+    \begin{beamercolorbox}[
+      sep=\dimexpr\ambitious@blocksep-\ambitious@blockadjust\relax,
+      leftskip=\ambitious@blockadjust,
+      rightskip=\dimexpr\ambitious@blockadjust plus 4em\relax
+    ]{block title#1}%
+  }}%
+      \usebeamerfont*{block title#1}%
+      \ambitious@strut%
+      \insertblocktitle%
+      \ambitious@strut%
+  \end{beamercolorbox}%
+  \nointerlineskip%
+  \ifbeamercolorempty[bg]{block body#1}{%
+    \begin{beamercolorbox}[vmode]{block body#1}}{
+  \ifbeamercolorempty[bg]{block body}{%
+    \begin{beamercolorbox}[vmode]{block body#1}%
+  }{%
+    \begin{beamercolorbox}[sep=\ambitious@blocksep, vmode]{block body#1}%
+    \vspace{-\ambitious@parskip}
+  }}%
+      \usebeamerfont{block body#1}%
+      \setlength{\parskip}{\ambitious@parskip}%
+}
+\setbeamertemplate{block begin}{\ambitious@block{}}
+\setbeamertemplate{block alerted begin}{\ambitious@block{ alerted}}
+\setbeamertemplate{block example begin}{\ambitious@block{ example}}
+\setbeamertemplate{block end}{\end{beamercolorbox}\vspace*{0.2ex}}
+\setbeamertemplate{block alerted end}{\end{beamercolorbox}\vspace*{0.2ex}}
+\setbeamertemplate{block example end}{\end{beamercolorbox}\vspace*{0.2ex}}
+%----------------------------------------------
+\setbeamertemplate{bibliography entry title}{}
+\setbeamertemplate{bibliography entry location}{}
+\setbeamertemplate{bibliography entry note}{}
+\setbeamertemplate{itemize items}{\textbullet}
+\setbeamertemplate{itemize subitem}{$\circ$}
+\setbeamertemplate{itemize subsubitem}{\textperiodcentered}
+%----------------------------------------------
+\setbeamertemplate{caption label separator}{: }
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{footnote}{%
+  \parindent 0em\noindent%
+  \raggedright
+  \usebeamercolor{footnote}\hbox to 0.8em{\hfil\insertfootnotemark}\insertfootnotetext\par%
+}
+\newlength{\ambitious@parskip}
+\setlength{\ambitious@parskip}{0.25em}
+\setlength{\parskip}{\ambitious@parskip}
+\linespread{1.0}
+% -----------------------------------------
+\newlength{\ambitious@txtmargin}
+\setlength{\ambitious@txtmargin}{1.0em}
+\setbeamersize{text margin left=\ambitious@txtmargin,text margin right=\ambitious@txtmargin}
+\newlength{\ambitious@leftmargin}
+\setlength{\ambitious@leftmargin}{1.0em}
+\setlength{\leftmargini}{\ambitious@txtmargin}
+\setlength{\leftmarginii}{\ambitious@txtmargin}
+\setlength{\leftmarginiii}{\ambitious@txtmargin}
+
+% margin between equations
+\setlength{\abovedisplayskip}{0pt}
+\setlength{\belowdisplayskip}{0pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+% -----------------------------------------
+\define@key{beamerframe}{c}[true]{% centered
+  \beamer@frametopskip=0pt plus 1fill\relax%
+  \beamer@framebottomskip=0pt plus 1fill\relax%
+  \beamer@frametopskipautobreak=0pt plus .4\paperheight\relax%
+  \beamer@framebottomskipautobreak=0pt plus .6\paperheight\relax%
+  \def\beamer@initfirstlineunskip{}%
+}
+\providebool{ambitious@standout}
+\define@key{beamerframe}{standout}[true]{%
+  \booltrue{ambitious@standout}
+  \begingroup
+    \setkeys{beamerframe}{c}
+    \setkeys{beamerframe}{noframenumbering}
+    \ifbeamercolorempty[bg]{palette primary}{
+      \setbeamercolor{background canvas}{
+        use=palette primary,
+        bg=-palette primary.fg
+      }
+    }{
+      \setbeamercolor{background canvas}{
+        use=palette primary,
+        bg=palette primary.bg
+      }
+    }
+  \centering
+  \usebeamercolor[fg]{palette primary}
+  \usebeamerfont{standout}
+}
+  \apptocmd{\beamer@reseteecodes}{%
+    \ifbool{ambitious@standout}{
+      \endgroup
+      \boolfalse{ambitious@standout}
+    }{}
+  }{}{}
+\ambitious@inner@setdefaults
+\ProcessPgfPackageOptions{/ambitious/inner}
+\endinput
+%%
+%% End of file `beamerinnerthemeambitious.sty'.

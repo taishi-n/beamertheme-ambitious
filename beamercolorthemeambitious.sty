@@ -1,0 +1,148 @@
+%% ---------------------------------------------------------------------------
+%% This is file `beamercolorthemeambitious.sty',
+%% Copyright 2021 Taishi Nakashima and the LaTeX community.
+%% The original template was based on the metropolis theme
+%% by Matthias Vogelgesang.
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamercolorthemeambitious}[2021/07/28 ambitious color theme]
+\RequirePackage{pgfopts}
+\pgfkeys{
+  /ambitious/color/block/.cd,
+    .is choice,
+    transparent/.code=\ambitious@block@transparent,
+    fill/.code=\ambitious@block@fill,
+}
+\pgfkeys{
+  /ambitious/color/background/.cd,
+    .is choice,
+    dark/.code=\ambitious@colors@dark,
+    light/.code=\ambitious@colors@light,
+}
+\newcommand{\ambitious@color@setdefaults}{
+  \pgfkeys{/ambitious/color/.cd,
+    background=light,
+    block=transparent,
+  }
+}
+\definecolor{mDarkTeal}{HTML}{23373b}
+\definecolor{mLightGreen}{HTML}{14B03D}
+\definecolor{sumi}{HTML}{595857}
+\definecolor{ruri}{HTML}{1e50a2}
+\definecolor{kurenai}{HTML}{d7003a}
+\definecolor{shironeri}{HTML}{f3f3f2}
+\definecolor{sakura}{HTML}{fef4f4}
+\definecolor{kinari}{HTML}{fbfaf5}
+\definecolor{asagi}{HTML}{00a3af}
+\definecolor{tsutsuji}{HTML}{e95295}
+\definecolor{midori}{HTML}{3eb370}
+\definecolor{konjiki}{HTML}{e6b422}
+\definecolor{gunjo}{HTML}{4c6cb3}
+\definecolor{hiro}{HTML}{d3381c}
+\definecolor{nibi}{HTML}{727171}
+
+\newcommand{\ambitious@colors@dark}{
+  \setbeamercolor{normal text}{%
+    fg=kinari,
+    bg=sumi
+  }
+  \usebeamercolor[fg]{normal text}
+}
+\newcommand{\ambitious@colors@light}{
+  \setbeamercolor{normal text}{%
+    fg=sumi,
+    bg=kinari
+  }
+}
+\setbeamercolor{alerted text}{%
+  fg=hiro
+}
+\setbeamercolor{example text}{%
+  fg=midori
+}
+\setbeamercolor{titlelike}{use=normal text, parent=normal text}
+\setbeamercolor{author}{use=normal text, parent=normal text}
+\setbeamercolor{date}{use=normal text, parent=normal text}
+\setbeamercolor{institute}{use=normal text, parent=normal text}
+\setbeamercolor{structure}{use=normal text, fg=gunjo}
+\setbeamercolor{itemize item}{fg=normal text.fg}
+\setbeamercolor{itemize subitem}{fg=normal text.fg}
+\setbeamercolor{itemize subsubitem}{fg=normal text.fg}
+\setbeamercolor{enumerate item}{fg=normal text.fg}
+\setbeamercolor{enumerate subitem}{fg=normal text.fg}
+\setbeamercolor{enumerate subsubitem}{fg=normal text.fg}
+\setbeamercolor{bibliography item}{fg=normal text.fg}
+\setbeamercolor{bibliography entry author}{fg=normal text.fg}
+\setbeamercolor{bibliography entry title}{fg=structure}
+\setbeamercolor{bibliography entry location}{fg=normal text.fg}
+\setbeamercolor{bibliography entry note}{fg=normal text.fg}
+\setbeamercolor{palette primary}{%
+  use=normal text,
+  fg=normal text.bg,
+  bg=normal text.fg
+}
+\setbeamercolor{frametitle}{%
+  use=palette primary,
+  parent=palette primary
+}
+\setbeamercolor{progress bar}{%
+  use=normal text,
+  fg=konjiki,
+  bg=kinari!25!white
+}
+\setbeamercolor{title separator}{
+  use=progress bar,
+  parent=progress bar
+}
+\setbeamercolor{progress bar in head/foot}{%
+  use=progress bar,
+  parent=progress bar
+}
+\setbeamercolor{progress bar in section page}{
+  use=progress bar,
+  parent=progress bar
+}
+\newcommand{\ambitious@block@transparent}{
+  \setbeamercolor{block title}{%
+    use=normal text,
+    fg=normal text.fg,
+    bg=
+  }
+  \setbeamercolor{block body}{
+    bg=
+  }
+}
+\newcommand{\ambitious@block@fill}{
+  \setbeamercolor{block title}{%
+    use=normal text,
+    fg=normal text.fg,
+    bg=normal text.bg!80!fg
+  }
+  \setbeamercolor{block body}{
+    use={block title, normal text},
+    bg=block title.bg!50!normal text.bg
+  }
+}
+\setbeamercolor{block title alerted}{%
+    use={block title, alerted text},
+    bg=block title.bg,
+    fg=alerted text.fg
+}
+\setbeamercolor{block title example}{%
+    use={block title, example text},
+    bg=block title.bg,
+    fg=example text.fg
+}
+\setbeamercolor{block body alerted}{use=block body, parent=block body}
+\setbeamercolor{block body example}{use=block body, parent=block body}
+\setbeamercolor{footnote}{fg=normal text.fg!90}
+\setbeamercolor{footnote mark}{fg=.}
+\ambitious@color@setdefaults
+\ProcessPgfPackageOptions{/ambitious/color}
+\mode<all>
+\endinput
+%%
+%% End of file `beamercolorthemeambitious.sty'.

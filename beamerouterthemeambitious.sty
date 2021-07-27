@@ -1,0 +1,126 @@
+%% ---------------------------------------------------------------------------
+%% This is file `beamerouterthemeambitious.sty',
+%% Copyright 2021 Taishi Nakashima and the LaTeX community.
+%% The original template was based on the metropolis theme
+%% by Matthias Vogelgesang.
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerouterthemeambitious}[2021/07/28 ambitious outer theme]
+\RequirePackage{etoolbox}
+\RequirePackage{calc}
+\RequirePackage{pgfopts}
+\pgfkeys{
+  /ambitious/outer/numbering/.cd,
+    .is choice,
+    none/.code=\setbeamertemplate{frame numbering}[none],
+    counter/.code=\setbeamertemplate{frame numbering}[counter],
+    fraction/.code=\setbeamertemplate{frame numbering}[fraction],
+}
+\pgfkeys{
+  /ambitious/outer/progressbar/.cd,
+    .is choice,
+    none/.code={%
+      \setbeamertemplate{headline}[plain]
+      \setbeamertemplate{frametitle}[plain]
+      \setbeamertemplate{footline}[plain]
+    },
+    head/.code={\pgfkeys{/ambitious/outer/progressbar=none}
+      \addtobeamertemplate{headline}{}{%
+        \usebeamertemplate*{progress bar in head/foot}
+      }
+    },
+    frametitle/.code={\pgfkeys{/ambitious/outer/progressbar=none}
+      \addtobeamertemplate{frametitle}{}{%
+        \usebeamertemplate*{progress bar in head/foot}
+      }
+    },
+    foot/.code={\pgfkeys{/ambitious/outer/progressbar=none}
+      \addtobeamertemplate{footline}{}{%
+        \usebeamertemplate*{progress bar in head/foot}%
+      }
+    },
+}
+\newcommand{\ambitious@outer@setdefaults}{
+  \pgfkeys{/ambitious/outer/.cd,
+    numbering=counter,
+    progressbar=frametitle,
+  }
+}
+\setbeamertemplate{navigation symbols}{}
+\defbeamertemplate{frame footer}{none}{}
+\defbeamertemplate{frame footer}{custom}[1]{ #1 }
+\defbeamertemplate{frame numbering}{none}{}
+\defbeamertemplate{frame numbering}{counter}{\insertframenumber}
+\defbeamertemplate{frame numbering}{fraction}{\insertframenumber/\inserttotalframenumber}
+\defbeamertemplate{headline}{plain}{}
+\defbeamertemplate{footline}{plain}{%
+  \begin{beamercolorbox}[wd=\textwidth, sep=3ex]{footline}%
+    \usebeamerfont{page number in head/foot}%
+    \usebeamertemplate*{frame footer}
+    \hfill%
+    % \usebeamertemplate*{frame numbering}
+  \end{beamercolorbox}%
+}
+\newlength{\ambitious@frametitle@padding}
+\setlength{\ambitious@frametitle@padding}{0.8em}
+\newcommand{\ambitious@frametitlestrut@start}{
+  \rule{0pt}{\ambitious@frametitle@padding +%
+    \totalheightof{%
+      \ifcsdef{ambitious@frametitleformat}{\ambitious@frametitleformat X}{X}%
+    }%
+  }%
+}
+\newcommand{\ambitious@frametitlestrut@end}{
+  \rule[-\ambitious@frametitle@padding]{0pt}{\ambitious@frametitle@padding}
+}
+\defbeamertemplate{frametitle}{plain}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,%
+      sep=0pt,%
+      leftskip=\ambitious@frametitle@padding,%
+      rightskip=\ambitious@frametitle@padding,%
+    ]{frametitle}%
+  \ambitious@frametitlestrut@start%
+  \insertframetitle%
+  \nolinebreak%
+  \hfill%
+  \textsubscript{\insertframenumber/\inserttotalframenumber}%
+  \ambitious@frametitlestrut@end%
+  \end{beamercolorbox}%
+}
+\setbeamertemplate{frametitle continuation}{%
+  \usebeamerfont{frametitle}
+  \romannumeral \insertcontinuationcount
+}
+\newlength{\ambitious@progressinheadfoot}
+\newlength{\ambitious@progressinheadfoot@linewidth}
+\setlength{\ambitious@progressinheadfoot@linewidth}{0.8pt}
+\setbeamertemplate{progress bar in head/foot}{
+  \nointerlineskip
+  \setlength{\ambitious@progressinheadfoot}{%
+    \paperwidth * \ratio{\insertframenumber pt}{\inserttotalframenumber pt}%
+  }%
+  \begin{beamercolorbox}[wd=\paperwidth]{progress bar in head/foot}
+    \begin{tikzpicture}
+      \fill[bg] (0,0) rectangle (\paperwidth, \ambitious@progressinheadfoot@linewidth);
+      \fill[fg] (0,0) rectangle (\ambitious@progressinheadfoot, \ambitious@progressinheadfoot@linewidth);
+    \end{tikzpicture}%
+  \end{beamercolorbox}
+}
+\AtBeginDocument{%
+  \apptocmd{\appendix}{%
+    \pgfkeys{%
+      /ambitious/outer/.cd,
+      numbering=none,
+      progressbar=none}
+    }{}{}
+}
+\ambitious@outer@setdefaults
+\ProcessPgfPackageOptions{/ambitious/outer}
+\endinput
+%%
+%% End of file `beamerouterthemeambitious.sty'.

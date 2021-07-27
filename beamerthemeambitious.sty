@@ -1,0 +1,96 @@
+%% ---------------------------------------------------------------------------
+%% This is file `beamerthemeambitious.sty',
+%% Copyright 2021 Taishi Nakashima and the LaTeX community.
+%% The original template was based on the metropolis theme
+%% by Matthias Vogelgesang.
+%%
+%% This work is licensed under a Creative Commons Attribution-ShareAlike 4.0
+%% International License (https://creativecommons.org/licenses/by-sa/4.0/).
+%% ---------------------------------------------------------------------------
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeambitious}
+  [2021/07/28 v1.0 ambitious Beamer theme]
+\RequirePackage{etoolbox}
+\RequirePackage{pgfopts}
+\pgfkeys{/ambitious/.cd,
+  .search also={
+    /ambitious/inner,
+    /ambitious/outer,
+    /ambitious/color,
+    /ambitious/font,
+  }
+}
+\pgfkeys{
+  /ambitious/titleformat plain/.cd,
+    .is choice,
+    regular/.code={%
+      \let\ambitious@plaintitleformat\@empty%
+      \setbeamerfont{standout}{shape=\normalfont}%
+    },
+    smallcaps/.code={%
+      \let\ambitious@plaintitleformat\@empty%
+      \setbeamerfont{standout}{shape=\scshape}%
+    },
+    allsmallcaps/.code={%
+      \let\ambitious@plaintitleformat\MakeLowercase%
+      \setbeamerfont{standout}{shape=\scshape}%
+      \PackageWarning{beamerthemeambitious}{%
+        Be aware that titleformat plain=allsmallcaps can lead to problems%
+      }
+    },
+    allcaps/.code={%
+      \let\ambitious@plaintitleformat\MakeUppercase%
+      \setbeamerfont{standout}{shape=\normalfont}%
+      \PackageWarning{beamerthemeambitious}{%
+        Be aware that titleformat plain=allcaps can lead to problems%
+      }
+    },
+}
+\pgfkeys{
+  /ambitious/titleformat/.code=\pgfkeysalso{
+      font/titleformat title=#1,
+      font/titleformat subtitle=#1,
+      font/titleformat section=#1,
+      font/titleformat frame=#1,
+      titleformat plain=#1,
+    }
+}
+\pgfkeys{/ambitious/.cd,
+  usetitleprogressbar/.code=\pgfkeysalso{outer/progressbar=frametitle},
+  noslidenumbers/.code=\pgfkeysalso{outer/numbering=none},
+  usetotalslideindicator/.code=\pgfkeysalso{outer/numbering=fraction},
+  nosectionslide/.code=\pgfkeysalso{inner/sectionpage=none},
+  darkcolors/.code=\pgfkeysalso{color/background=dark},
+  blockbg/.code=\pgfkeysalso{color/block=fill, inner/block=fill},
+}
+\newcommand{\ambitious@setdefaults}{
+  \pgfkeys{/ambitious/.cd,
+    titleformat plain=regular,
+  }
+}
+\useinnertheme{ambitious}
+\useoutertheme{ambitious}
+\usecolortheme{ambitious}
+\usefonttheme{ambitious}
+\AtEndPreamble{%
+  \@ifpackageloaded{pgfplots}{%
+    \RequirePackage{pgfplotsthemetol}
+  }{}
+}
+\newcommand{\metroset}[1]{\pgfkeys{/ambitious/.cd,#1}}
+\def\ambitious@plaintitleformat#1{#1}
+\newcommand{\plain}[2][]{%
+  \PackageWarning{beamerthemeambitious}{%
+    The syntax `\plain' may be deprecated in a future version of ambitious.
+    Please use a frame with [standout] instead.
+  }
+  \begin{frame}[standout]{#1}
+    \ambitious@plaintitleformat{#2}
+  \end{frame}
+}
+\newcommand{\mreducelistspacing}{\vspace{-\topsep}}
+\ambitious@setdefaults
+\ProcessPgfOptions{/ambitious}
+\endinput
+%%
+%% End of file `beamerthemeambitious.sty'.
