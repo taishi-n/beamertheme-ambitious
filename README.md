@@ -2,14 +2,20 @@
 
 Ambitious is a simple, modern Beamer theme suitable for anyone to use mostly base on the [Metropolis](https://github.com/matze/mtheme).
 Main differences from the original Metropolis theme are:
-* Japanese color scheme
-* Page number in `frametitle`
+
+- Japanese color scheme
+- Page number in `frametitle`
+
+## Installation
+
+Coming soon.
 
 ## Author
 
 Taishi Nakashima
 
 ## Example
+
 Coming soon.
 
 ## License
