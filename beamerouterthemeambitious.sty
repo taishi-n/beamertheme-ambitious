@@ -57,7 +57,7 @@
 \defbeamertemplate{frame numbering}{fraction}{\insertframenumber/\inserttotalframenumber}
 \defbeamertemplate{headline}{plain}{}
 \defbeamertemplate{footline}{plain}{%
-  \begin{beamercolorbox}[wd=\textwidth, sep=3ex]{footline}%
+  \begin{beamercolorbox}[wd=\textwidth, sep=1.5ex]{footline}%
     \usebeamerfont{page number in head/foot}%
     \usebeamertemplate*{frame footer}
     \hfill%
@@ -65,7 +65,7 @@
   \end{beamercolorbox}%
 }
 \newlength{\ambitious@frametitle@padding}
-\setlength{\ambitious@frametitle@padding}{0.8em}
+\setlength{\ambitious@frametitle@padding}{0.6em}
 \newcommand{\ambitious@frametitlestrut@start}{
   \rule{0pt}{\ambitious@frametitle@padding +%
     \totalheightof{%
@@ -89,6 +89,20 @@
   \nolinebreak%
   \hfill%
   \textsubscript{\insertframenumber/\inserttotalframenumber}%
+  \ambitious@frametitlestrut@end%
+  \end{beamercolorbox}%
+}
+\defbeamertemplate{frametitle}{nonumber}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,%
+      sep=0pt,%
+      leftskip=\ambitious@frametitle@padding,%
+      rightskip=\ambitious@frametitle@padding,%
+    ]{frametitle}%
+  \ambitious@frametitlestrut@start%
+  \insertframetitle%
+  \nolinebreak%
   \ambitious@frametitlestrut@end%
   \end{beamercolorbox}%
 }
