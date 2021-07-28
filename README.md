@@ -8,7 +8,7 @@ Main differences from the original Metropolis theme are:
 
 ## Installation
 
-Coming soon.
+See [metropolis theme](https://github.com/matze/mtheme)
 
 ## Author
 
