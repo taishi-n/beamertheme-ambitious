@@ -125,19 +125,19 @@
     use={block title, normal text},
     bg=block title.bg!50!normal text.bg
   }
+  \setbeamercolor{block title alerted}{%
+      use={block title, alerted text},
+      fg=normal text.bg,
+      bg=alerted text.fg
+  }
+  \setbeamercolor{block title example}{%
+      use={block title, example text},
+      fg=normal text.bg,
+      bg=example text.fg
+  }
+  \setbeamercolor{block body alerted}{use=block body,fg=normal text.fg,bg=alerted text.fg!20}
+  \setbeamercolor{block body example}{use=block body,fg=normal text.fg,bg=example text.fg!20}
 }
-\setbeamercolor{block title alerted}{%
-    use={block title, alerted text},
-    bg=block title.bg,
-    fg=alerted text.fg
-}
-\setbeamercolor{block title example}{%
-    use={block title, example text},
-    bg=block title.bg,
-    fg=example text.fg
-}
-\setbeamercolor{block body alerted}{use=block body, parent=block body}
-\setbeamercolor{block body example}{use=block body, parent=block body}
 \setbeamercolor{footnote}{fg=normal text.fg!90}
 \setbeamercolor{footnote mark}{fg=.}
 \ambitious@color@setdefaults
