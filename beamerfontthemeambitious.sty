@@ -285,19 +285,22 @@
   \PackageError{beamerfontthemeambitious}{Patching section title failed}\@ehc
 \fi
 \patchcmd{\beamer@@frametitle}
-  {{%
-      \gdef\insertframetitle{{#2\ifnum\beamer@autobreakcount>0\relax{}\space%
-      \usebeamertemplate*{frametitle continuation}\fi}}%
-    \gdef\beamer@frametitle{#2}%
-    \gdef\beamer@shortframetitle{#1}%
-    }}
-  {{%
-      \gdef\insertframetitle{{\ambitious@frametitleformat{#2}\ifnum%
-      \beamer@autobreakcount>0\relax{}\space%
-      \usebeamertemplate*{frametitle continuation}\fi}}%
-    \gdef\beamer@frametitle{#2}%
-    \gdef\beamer@shortframetitle{#1}%
-    }}
+  {\gdef\insertframetitle{{%
+      #2%
+      \ifnum\beamer@autobreakcount>0
+        \relax{}\space%
+        \beamer@insertframetitlecontinuation%
+      \fi%
+    }}%
+  }
+  {\gdef\insertframetitle{{%
+      \ambitious@frametitleformat{#2}%
+      \ifnum\beamer@autobreakcount>0
+        \relax{}\space%
+        \beamer@insertframetitlecontinuation%
+      \fi%
+    }}%
+  }
   {}
   {\PackageError{beamerfontthemeambitious}{Patching frame title failed}\@ehc}
 \ambitious@font@setdefaults
